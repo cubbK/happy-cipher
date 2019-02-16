@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/cubbK/happy-cipher/issues"
   },
-  "homepage": "https://github.com/cubbK/happy-cipher#readme"
+  "homepage": "https://github.com/cubbK/happy-cipher#readme",
+  "dependencies": {
+    "@types/node": "^11.9.4",
+    "bitwise": "^2.0.1",
+    "random-number-csprng": "^1.0.2"
+  }
 }
