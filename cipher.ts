@@ -1,4 +1,4 @@
-import bitwise from "bitwise";
+const argv = require("minimist")(process.argv.slice(2));
 const randomNumber = require("random-number-csprng");
 
 function stringToBinary(str, spaceSeparatedOctets) {
@@ -78,7 +78,7 @@ async function unencryptText(text: string, key: string) {
   const unencryptedText = binaryToString(unencryptedTextBits);
   return {
     text: unencryptedText
-  }
+  };
 }
 
 function unencryptBits(bits, key) {
@@ -102,16 +102,50 @@ function unencryptBits(bits, key) {
   return unencryptedBits;
 }
 
+async function getGarbageBits() {
+  let garbageBits = "";
+
+  for (let i = 0; i < (await randomNumber(64, 1024)); i++) {
+    const number = await randomNumber(0, 1);
+    garbageBits = garbageBits + number;
+  }
+  return garbageBits;
+}
+
 async function main() {
-  const plainText = "hey yoou je ne parles francays";
+  const toEncrypt = argv.encrypt ? true : false;
+  const toDecrypt = argv.decrypt ? true : false;
+  const key = argv.key;
+  if (toDecrypt) {
+    if (!key) {
+      console.log("no --key specified");
+    } else {
+      const unencryptedText = await unencryptText(argv.decrypt, key);
+
+      console.log(unencryptedText.text);
+    }
+  }
+
+  if (toEncrypt) {
+    const plainText = argv.encrypt;
+    const encryptedText = await encryptText(plainText);
+
+    console.log(`key: "${encryptedText.key}"`);
+    console.log(`encrypted text: "${encryptedText.text}"`);
+  } 
+}
+
+async function test() {
+  const plainText = "Hello from outer space";
+
   const encryptedText = await encryptText(plainText);
+  encryptedText
 
-  const unencryptedText = await unencryptText(
-    encryptedText.text,
-    encryptedText.key
-  );
+  const decryptedText = await unencryptText(encryptedText.text, encryptedText.key);
 
-  unencryptedText
+  decryptedText
+
 }
 
 main();
+test()

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node cipher.ts"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,11 @@
   "dependencies": {
     "@types/node": "^11.9.4",
     "bitwise": "^2.0.1",
+    "minimist": "^1.2.0",
     "random-number-csprng": "^1.0.2"
+  },
+  "devDependencies": {
+    "ts-node": "^8.0.2",
+    "typescript": "^3.3.3"
   }
 }
